@@ -1,33 +1,36 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
-type Student struct {
-	name   string
-	grades []int
-	age    int
+type shape interface {
+	area() float64
 }
 
-func (s Student) getAge() int {
-	return s.age
+type circle struct {
+	radius float64
 }
 
-func (s *Student) setAge(age int) {
-	s.age = age
+type rect struct {
+	width  float64
+	height float64
 }
 
-func (s Student) getAverageGrade() float32 {
-	sum := 0
-	for _, v := range s.grades {
-		sum += v
-	}
-	return float32(sum) / float32(len(s.grades))
+func (r rect) area() float64 {
+	return r.height * r.width
+}
+
+func (c circle) area() float64 {
+	return math.Pi * math.Pow(c.radius, 2)
 }
 
 func main() {
-	s1 := Student{"ezzat", []int{90, 50, 80, 100}, 35}
-	fmt.Println(s1.getAge())
-	s1.setAge(25)
-	fmt.Println(s1.age)
-	fmt.Println(s1.getAverageGrade())
+	c1 := circle{4.5}
+	r1 := rect{5, 8.2}
+	shapes := []shape{c1, r1}
+	for _, shape := range shapes {
+		fmt.Println(shape.area())
+	}
 }
